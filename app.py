@@ -30,7 +30,7 @@ if total > 0:
         (29, 39, 3, 60, 69),
         (40, 49, 4, 70, 79),
         (50, 59, 5, 80, 89),
-        (60, 69, 6, 90, 95),
+        (60, 69.99, 6, 90, 95),
         (70, 100, 7, 96, 100),
     ]
 
@@ -57,6 +57,7 @@ if total > 0:
         st.warning("⚠️ Percentage is outside the defined boundaries.")
 else:
     st.info("ℹ️ Please enter your total marks to calculate results.")
+
 
 
 
