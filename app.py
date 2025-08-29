@@ -6,10 +6,10 @@ st.markdown(
     """
     <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
         <img src="https://raw.githubusercontent.com/MissGraci/Calculatorapp/main/ib-world-school-logo-2-colour-rev.png" width="60">
-        <h1 style="margin: 0; color: #1d427c;">Converted CS IBDP Calculator</h1>
+        <h1 style='text-align: center;"margin: 0; color: #1d427c;">Converted CS IBDP Calculator</h1>
         <img src="https://raw.githubusercontent.com/MissGraci/Calculatorapp/main/logo.png" width="60">
     </div>
-    <p style='text-align: center; color: gray;'>(only SUMMATIVE will be converted)</p>
+    <p style='text-align: center; color: white;'>(only SUMMATIVE will be converted)</p>
     """,
     unsafe_allow_html=True
 )
@@ -56,6 +56,7 @@ if total > 0:
         st.warning("⚠️ Percentage is outside the defined boundaries.")
 else:
     st.info("ℹ️ Please enter your total marks to calculate results.")
+
 
 
 
