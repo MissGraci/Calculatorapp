@@ -1,10 +1,10 @@
 import streamlit as st
 
-st.set_page_config(page_title="Converted CS IBDP Calculator")
+st.set_page_config(page_title="Converted CS IBDP Calculator – Mrs Graci", layout="centered")
 
-st.title("Converted CS IBDP Calculator")
-st.write("(only SUMMATIVE will be converted)")
-st.write("Enter your summative mark to see your IB Grade, PASB Range, and Converted to PASB value.")
+st.markdown("<h1 style='text-align: center; color: #2C3E50;'>🎓 Converted CS IBDP Calculator</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: gray;'>(only SUMMATIVE will be converted)</p>", unsafe_allow_html=True)
+st.write("Enter your summative mark to see your IB Grade, PASB Range, and Converted PASB Value:")
 
 score = st.number_input("Your marks", min_value=0, step=1, format="%d")
 total = st.number_input("Total marks possible", min_value=0, step=1, format="%d")
@@ -41,8 +41,8 @@ if total > 0:
         with col2:
             st.metric("PASB GPA Range", gpa_range)
         with col3:
-            st.metric("Converted to PASB value", f"{gpa_exact:.2f}")
+            st.metric("Converted PASB Value", f"{gpa_exact:.2f}")
     else:
-        st.warning("Percentage is outside the defined boundaries.")
+        st.warning("⚠️ Percentage is outside the defined boundaries.")
 else:
-    st.info("Please enter your total marks to calculate results.")
+    st.info("ℹ️ Please enter your total marks to calculate results.")
