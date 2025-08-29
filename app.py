@@ -2,7 +2,6 @@ import streamlit as st
 
 st.set_page_config(page_title="Converted CS IBDP Calculator – Mrs Graci", layout="centered")
 
-# Título com imagens nos dois lados
 st.markdown(
     """
     <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
@@ -57,3 +56,4 @@ if total > 0:
         st.warning("⚠️ Percentage is outside the defined boundaries.")
 else:
     st.info("ℹ️ Please enter your total marks to calculate results.")
+
