@@ -2,8 +2,19 @@ import streamlit as st
 
 st.set_page_config(page_title="Converted CS IBDP Calculator – Mrs Graci", layout="centered")
 
-st.markdown("<h1 style='text-align: center; color: #1d427c;'> Converted CS IBDP Calculator</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: gray;'>(only SUMMATIVE will be converted)</p>", unsafe_allow_html=True)
+# Título com imagens nos dois lados
+st.markdown(
+    """
+    <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+        <img src="PUT-YOUR-LEFT-IMAGE-URL-HERE" width="60">
+        <h1 style="margin: 0; color: #1d427c;">Converted CS IBDP Calculator</h1>
+        <img src="PUT-YOUR-RIGHT-IMAGE-URL-HERE" width="60">
+    </div>
+    <p style='text-align: center; color: gray;'>(only SUMMATIVE will be converted)</p>
+    """,
+    unsafe_allow_html=True
+)
+
 st.write("Enter your summative mark to see your IB Grade, PASB Range, and Converted PASB Value:")
 
 score = st.number_input("Your marks", min_value=0, step=1, format="%d")
@@ -46,5 +57,3 @@ if total > 0:
         st.warning("⚠️ Percentage is outside the defined boundaries.")
 else:
     st.info("ℹ️ Please enter your total marks to calculate results.")
-
-
