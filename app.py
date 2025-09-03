@@ -134,23 +134,25 @@ if ib_grade is not None:
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
 
-# Rodapé explicativo
+# Footer note 
 st.markdown(
     """
     <div style="margin-top:30px; padding:15px; background-color:#2c2c2c; border-radius:8px; font-size:13px; color:#cccccc;">
-    <b>ℹ️ Nota importante:</b><br><br>
-    O IB não usa porcentagem — ele usa <b>raw marks</b>.<br><br>
-    O IB tem um número fixo de pontos brutos para cada prova:<br>
-    • SL Paper 1 → 70 pontos<br>
-    • SL Paper 2 → 45 pontos<br>
-    • HL Paper 1 → 100 pontos<br>
-    • HL Paper 2 → 65 pontos<br>
-    • HL Paper 3 → 30 pontos<br>
-    • IA → 34 pontos<br><br>
-    Quando o IB corrige, eles dizem:<br>
-    <i>“Esse aluno tirou 52/70 no SL Paper 1”.</i><br><br>
-    E é esse número (52) que vai para os <b>grade boundaries</b>.
+    <b>ℹ️ Important note:</b><br><br>
+    The IB does not use percentages — it uses <b>raw marks</b>.<br><br>
+    Each IB assessment has a fixed number of raw marks:<br>
+    • SL Paper 1 → 70 marks<br>
+    • SL Paper 2 → 45 marks<br>
+    • HL Paper 1 → 100 marks<br>
+    • HL Paper 2 → 65 marks<br>
+    • HL Paper 3 → 30 marks<br>
+    • IA → 34 marks<br><br>
+    When the IB grades an assessment, they say:<br>
+    <i>“This student scored 52/70 on SL Paper 1”.</i><br><br>
+    And it is this number (52) that is applied to the <b>grade boundaries</b>.
     </div>
     """,
     unsafe_allow_html=True
 )
+
+
