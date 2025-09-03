@@ -18,58 +18,72 @@ st.markdown(
 
 st.write("Enter your summative mark to see your IB Grade, PASB Range, and Converted PASB Value:")
 
-# Escolha do curso
+# Escolha de nível
 level = st.radio("Select your course level:", ["SL", "HL"])
 
-score = st.number_input("Your marks", min_value=0, step=1, format="%d")
-total = st.number_input("Total marks possible", min_value=0, step=1, format="%d")
+# Escolha de avaliação
+if level == "HL":
+    assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "Paper 3", "IA Solution", "Final Grade"])
+else:
+    assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "IA Solution", "Final Grade"])
 
-if total > 0:  
+score = st.number_input("Your marks", min_value=0, step=1, format="%d")
+total = st.number_input("Total marks possible", min_value=1, step=1, format="%d")
+
+# Boundaries IB oficiais + conversão PASB (30–100)
+boundaries_data = {
+    "HL": {
+        "Paper 1": [(0,11,1,30,49),(12,23,2,50,59),(24,35,3,60,69),(36,45,4,70,79),
+                    (46,54,5,80,89),(55,64,6,90,95),(65,100,7,96,100)],
+        "Paper 2": [(0,10,1,30,49),(11,20,2,50,59),(21,24,3,60,69),(25,31,4,70,79),
+                    (32,37,5,80,89),(38,44,6,90,95),(45,65,7,96,100)],
+        "Paper 3": [(0,5,1,30,49),(6,11,2,50,59),(12,14,3,60,69),(15,17,4,70,79),
+                    (18,19,5,80,89),(20,22,6,90,95),(23,30,7,96,100)],
+        "IA Solution": [(0,4,1,30,49),(5,9,2,50,59),(10,14,3,60,69),(15,18,4,70,79),
+                        (19,22,5,80,89),(23,26,6,90,95),(27,34,7,96,100)],
+        "Final Grade": [(0,13,1,30,49),(14,28,2,50,59),(29,39,3,60,69),(40,49,4,70,79),
+                        (50,59,5,80,89),(60,69,6,90,95),(70,100,7,96,100)]
+    },
+    "SL": {
+        "Paper 1": [(0,5,1,30,49),(6,11,2,50,59),(12,20,3,60,69),(21,29,4,70,79),
+                    (30,37,5,80,89),(38,46,6,90,95),(47,70,7,96,100)],
+        "Paper 2": [(0,7,1,30,49),(8,15,2,50,59),(16,20,3,60,69),(21,22,4,70,79),
+                    (23,25,5,80,89),(26,27,6,90,95),(28,45,7,96,100)],
+        "IA Solution": [(0,4,1,30,49),(5,9,2,50,59),(10,14,3,60,69),(15,18,4,70,79),
+                        (19,22,5,80,89),(23,26,6,90,95),(27,34,7,96,100)],
+        "Final Grade": [(0,11,1,30,49),(12,23,2,50,59),(24,36,3,60,69),(37,47,4,70,79),
+                        (48,57,5,80,89),(58,68,6,90,95),(68,100,7,96,100)]
+    }
+}
+
+if total > 0:
     percentage = (score / total) * 100
     st.info(f"Your percentage: **{percentage:.2f}%**")
 
-    # Definição de boundaries diferentes
-    if level == "SL":
-        boundaries = [
-            (0, 13.99, 1, 30, 49),
-            (14, 28.99, 2, 50, 59),
-            (29, 39.99, 3, 60, 69),
-            (40, 49.99, 4, 70, 79),
-            (50, 59.99, 5, 80, 89),
-            (60, 69.99, 6, 90, 95),
-            (70, 100, 7, 96, 100),
-        ]
-    else:  # HL
-        boundaries = [
-            (0, 19.99, 1, 30, 49),
-            (20, 34.99, 2, 50, 59),
-            (35, 44.99, 3, 60, 69),
-            (45, 54.99, 4, 70, 79),
-            (55, 64.99, 5, 80, 89),
-            (65, 74.99, 6, 90, 95),
-            (75, 100, 7, 96, 100),
-        ]
+    selected_boundaries = boundaries_data[level][assessment]
 
-    ib_grade, gpa_range, gpa_exact = None, None, None
+    ib_grade, pasb_range, pasb_value = None, None, None
 
-    for low, high, ib, pasb_low, pasb_high in boundaries:
+    for low, high, grade, pasb_low, pasb_high in selected_boundaries:
         if low <= percentage <= high:
-            ib_grade = ib
-            gpa_range = f"{pasb_low}–{pasb_high}"
-            gpa_exact = pasb_low + (percentage - low) / (high - low) * (pasb_high - pasb_low)
+            ib_grade = grade
+            pasb_range = f"{pasb_low}–{pasb_high}"
+            pasb_value = pasb_low + (percentage - low) / (high - low) * (pasb_high - pasb_low)
             break
 
     if ib_grade is not None:
         st.divider()
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4, col5 = st.columns(5)
 
         with col1:
-            st.metric("IB Grade", ib_grade)
+            st.metric("Assessment", assessment)
         with col2:
-            st.metric("PASB GPA Range", gpa_range)
+            st.metric("IB Grade", ib_grade)
         with col3:
-            st.metric("Converted PASB Value", f"{gpa_exact:.2f}")
+            st.metric("Real IB % (raw)", f"{percentage:.2f}%")
+        with col4:
+            st.metric("PASB GPA Range", pasb_range)
+        with col5:
+            st.metric("Converted PASB Value", f"{pasb_value:.2f}")
     else:
-        st.warning("⚠️ Percentage is outside the defined boundaries.")
-else:
-    st.info("ℹ️ Please enter your total marks to calculate results.")
+        st.warning("⚠️ Percentage is outside the defined IB boundaries.")
