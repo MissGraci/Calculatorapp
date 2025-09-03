@@ -19,13 +19,13 @@ st.markdown(
 st.write("Enter your summative mark to see your IB Grade, PASB Range, and Converted PASB Value:")
 
 # Escolha de nível
-level = st.radio("Select your course level:", ["SL", "HL"])
+level = st.radio("Select your level:", ["SL", "HL"])
 
 # Escolha de avaliação
 if level == "HL":
-    assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "Paper 3", "IA Solution", "Final Grade"])
+    assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "Paper 3", "IA - Solution", "Final Grade"])
 else:
-    assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "IA Solution", "Final Grade"])
+    assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "IA - Solution", "Final Grade"])
 
 score = st.number_input("Your marks", min_value=0, step=1, format="%d")
 total = st.number_input("Total marks possible", min_value=1, step=1, format="%d")
@@ -80,10 +80,11 @@ if total > 0:
         with col2:
             st.metric("IB Grade", ib_grade)
         with col3:
-            st.metric("Real IB % (raw)", f"{percentage:.2f}%")
+            st.metric("Real IB", f"{percentage:.2f}")
         with col4:
             st.metric("PASB GPA Range", pasb_range)
         with col5:
             st.metric("Converted PASB Value", f"{pasb_value:.2f}")
     else:
         st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
