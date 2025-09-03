@@ -71,18 +71,13 @@ if total > 0:
             pasb_value = pasb_low + (percentage - low) / (high - low) * (pasb_high - pasb_low)
             break
 
-    if ib_grade is not None:
+   if ib_grade is not None:
         st.divider()
 
     html_result = f"""
-    <div style="
-        background-color:#f5f5f5; 
-        color:#1d1d1d; 
-        padding:20px; 
-        border-radius:12px; 
-        border: 2px solid #1d427c;
-        font-family:Arial, sans-serif;
-        margin-top:20px;">
+    <div style="background-color:#f5f5f5; color:#1d1d1d; padding:20px;
+                border-radius:12px; border: 2px solid #1d427c;
+                font-family:Arial, sans-serif; margin-top:20px;">
         
         <h3 style="margin-bottom:15px; color:#1d427c; text-align:center;">
             📊 Results – {assessment}
@@ -105,11 +100,8 @@ if total > 0:
     </div>
     """
 
+    # ESSA LINHA É O QUE RENDERIZA
     st.markdown(html_result, unsafe_allow_html=True)
+
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
-
-
-
-
-
