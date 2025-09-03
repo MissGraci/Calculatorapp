@@ -72,7 +72,7 @@ if total > 0:
             break
 
     if ib_grade is not None:
-    st.divider()
+        st.divider()
 
     html_result = f"""
     <div style="
@@ -108,6 +108,7 @@ if total > 0:
     st.markdown(html_result, unsafe_allow_html=True)
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
 
 
 
