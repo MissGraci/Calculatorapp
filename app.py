@@ -13,8 +13,8 @@ st.markdown(
         </h1>
         <img src="https://raw.githubusercontent.com/MissGraci/Calculatorapp/main/PASB-New-Logo-2021_G.png" width="120">
     </div>
-    <p style='text-align: center; color: gray;'>(only SUMMATIVE will be converted)</p>
-    Please, enter your summative marks to see your IB range, Real Grade, PASB Range, and Converted PASB Value:")
+    <p style='text-align: center; color: gray;'>(only SUMMATIVE will be converted - Mrs. Dias, Gracielle)</p>
+    <p style='text-align: center; color: white;'>Please, enter your summative marks to see your IB range, Real Grade, PASB Range, and Converted PASB Value
     """,
     unsafe_allow_html=True
 )
@@ -99,8 +99,8 @@ if ib_grade is not None:
     # Criar tabela como DataFrame
     results = {
         "Assessment": [assessment],
-        "IB Grade": [ib_grade],
-        "Real IB %": [f"{percentage:.2f}%"],
+        "IB range": [ib_grade],
+        "Real (IB grade): [f"{percentage:.2f}%"],
         "PASB GPA Range": [pasb_range],
         "Converted PASB Value": [f"{pasb_value:.2f}"]
     }
@@ -125,3 +125,4 @@ if ib_grade is not None:
 
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
