@@ -110,11 +110,11 @@ if ib_grade is not None:
     # Estilizar dataframe
     def highlight_table(val, col_name):
         if col_name == "Real (IB grade)":
-            return "text-align:center; color:#1d427c; font-weight:600;"
+            return "text-align:center; color: white; font-weight:600;"
         elif col_name == "PASB GPA Range":
-            return "text-align:center; color:#1d427c; font-weight:600;"
+            return "text-align:center; color: white; font-weight:600;"
         elif col_name == "Converted PASB Value":
-            return "text-align:center; color:#1d427c; font-weight:600;"
+            return "text-align:center; color: white; font-weight:600;"
         else:
             return "text-align:center;"
 
@@ -125,6 +125,7 @@ if ib_grade is not None:
 
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
 
 
 
