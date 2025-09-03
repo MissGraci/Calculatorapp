@@ -105,12 +105,12 @@ if total > 0:
             </tr>
         </table>
     </div>
-    """,
+    """
 
-        unsafe_allow_html=True   # <<< ESSA LINHA É ESSENCIAL
-)
-    else:
-        st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+    st.markdown(html_result, unsafe_allow_html=True)
+else:
+    st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
 
 
 
