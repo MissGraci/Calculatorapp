@@ -42,9 +42,9 @@ if assessment == "Final Grade (calculated)":
         percentage = (p1 * 0.4) + (p2 * 0.2) + (p3 * 0.2) + (ia * 0.2)
 
     else:  # SL
-    p1 = st.number_input("Paper 1 (max 45%)", min_value=0, max_value=100, step=1)
-    p2 = st.number_input("Paper 2 (max 25%)", min_value=0, max_value=100, step=1)
-    ia = st.number_input("IA Solution (max 30%)", min_value=0, max_value=100, step=1)
+        p1 = st.number_input("Paper 1 (max 45%)", min_value=0, max_value=100, step=1)
+        p2 = st.number_input("Paper 2 (max 25%)", min_value=0, max_value=100, step=1)
+        ia = st.number_input("IA Solution (max 30%)", min_value=0, max_value=100, step=1)
 
     # Ponderação IB SL
     percentage = (p1 * 0.45) + (p2 * 0.25) + (ia * 0.30)
@@ -125,6 +125,7 @@ if ib_grade is not None:
 
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
 
 
 
