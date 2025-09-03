@@ -45,6 +45,7 @@ if assessment == "Final Grade (calculated)":
         ia = st.number_input("IA Solution (20%)", min_value=0, max_value=100, step=1)
 
         percentage = (p1 * 0.4) + (p2 * 0.2) + (p3 * 0.2) + (ia * 0.2)
+        raw_ib = percentage  # já está em % (0–100)
 
     else:  # SL
         p1 = st.number_input("Paper 1 (45%)", min_value=0, max_value=100, step=1)
@@ -52,8 +53,8 @@ if assessment == "Final Grade (calculated)":
         ia = st.number_input("IA Solution (30%)", min_value=0, max_value=100, step=1)
 
         percentage = (p1 * 0.45) + (p2 * 0.25) + (ia * 0.30)
+        raw_ib = percentage  # já está em % (0–100)
 
-    raw_ib = percentage  # já está em % → usamos direto
     st.info(f"Calculated Final Grade Percentage: **{percentage:.2f}%**")
 
 else:
@@ -63,10 +64,17 @@ else:
     if total > 0:
         percentage = (score / total) * 100
         max_ib_marks = max_marks[level][assessment]
-        raw_ib = round(score / total) * max_ib_marks  # conversão para escala IB
+        raw_ib = (score / total) * max_ib_marks  # conversão para escala IB
 
         st.info(f"Your percentage: **{percentage:.2f}%**")
         st.info(f"Converted IB scale: **{int(round(raw_ib))}/{max_ib_marks}**")
+
+        # Explicação automática
+        st.caption(
+            f"ℹ️ Your school percentage ({score}/{total} = {percentage:.2f}%) "
+            f"was converted to the official IB raw marks scale: {int(round(raw_ib))}/{max_ib_marks}. "
+            f"IB grade boundaries are always based on the official raw marks."
+        )
     else:
         percentage, raw_ib = 0, 0
 
@@ -96,7 +104,7 @@ boundaries_data = {
     }
 }
 
-# Determinar grade com base em raw_ib
+# Determinar grade com base no raw_ib
 ib_grade, pasb_range, pasb_value = None, None, None
 selected_boundaries = boundaries_data[level][assessment]
 
@@ -114,21 +122,14 @@ if ib_grade is not None:
     results = {
         "Assessment": [assessment],
         "IB Range": [ib_grade],
-        "Real (IB grade)": [f"{percentage:.2f}"],
-        "Converted IB Marks": [f"{raw_ib:.2f} / {max_marks[level][assessment]}"],
+        "Real %": [f"{percentage:.2f}%"],
+        "Converted IB Marks": [f"{int(round(raw_ib))}/{max_marks[level][assessment]}"],
         "PASB GPA Range": [pasb_range],
         "Converted PASB Value": [f"{pasb_value:.2f}"]
     }
 
     df = pd.DataFrame(results)
-
-    # Mostrar como tabela bonitinha
     st.dataframe(df, use_container_width=True)
 
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
-
-
-
-
-
