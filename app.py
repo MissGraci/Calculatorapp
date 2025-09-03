@@ -65,7 +65,7 @@ else:
         max_ib_marks = max_marks[level][assessment]
         raw_ib = round(score / total) * max_ib_marks  # conversão para escala IB
 
-        st.info(f"Your percentage: **{percentage:.2f}%**  |  Converted IB scale: **{raw_ib:.2f}/{max_ib_marks}**")
+        st.info(f"Your percentage: **{percentage:.2f}%**  |  Converted IB scale: **{int(round(raw_ib))}/{max_ib_marks}**")
     else:
         percentage, raw_ib = 0, 0
 
@@ -126,4 +126,5 @@ if ib_grade is not None:
 
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
 
