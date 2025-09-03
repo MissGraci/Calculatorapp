@@ -15,7 +15,11 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 st.write("Enter your summative mark to see your IB Grade, PASB Range, and Converted PASB Value:")
+
+# Escolha do curso
+level = st.radio("Select your course level:", ["SL", "HL"])
 
 score = st.number_input("Your marks", min_value=0, step=1, format="%d")
 total = st.number_input("Total marks possible", min_value=0, step=1, format="%d")
@@ -24,15 +28,27 @@ if total > 0:
     percentage = (score / total) * 100
     st.info(f"Your percentage: **{percentage:.2f}%**")
 
-    boundaries = [
-        (0, 13.99, 1, 30, 49),
-        (14, 28.99, 2, 50, 59),
-        (29, 39.99, 3, 60, 69),
-        (40, 49.99, 4, 70, 79),
-        (50, 59.99, 5, 80, 89),
-        (60, 69.99, 6, 90, 95),
-        (70, 100, 7, 96, 100),
-    ]
+    # Definição de boundaries diferentes
+    if level == "SL":
+        boundaries = [
+            (0, 13.99, 1, 30, 49),
+            (14, 28.99, 2, 50, 59),
+            (29, 39.99, 3, 60, 69),
+            (40, 49.99, 4, 70, 79),
+            (50, 59.99, 5, 80, 89),
+            (60, 69.99, 6, 90, 95),
+            (70, 100, 7, 96, 100),
+        ]
+    else:  # HL
+        boundaries = [
+            (0, 19.99, 1, 30, 49),
+            (20, 34.99, 2, 50, 59),
+            (35, 44.99, 3, 60, 69),
+            (45, 54.99, 4, 70, 79),
+            (55, 64.99, 5, 80, 89),
+            (65, 74.99, 6, 90, 95),
+            (75, 100, 7, 96, 100),
+        ]
 
     ib_grade, gpa_range, gpa_exact = None, None, None
 
@@ -57,14 +73,3 @@ if total > 0:
         st.warning("⚠️ Percentage is outside the defined boundaries.")
 else:
     st.info("ℹ️ Please enter your total marks to calculate results.")
-
-
-
-
-
-
-
-
-
-
-
