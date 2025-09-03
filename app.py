@@ -106,8 +106,10 @@ if total > 0:
         </table>
     </div>
     """,
+       )
     unsafe_allow_html=True   # <<< ESSA LINHA É ESSENCIAL
 )
     else:
         st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
 
