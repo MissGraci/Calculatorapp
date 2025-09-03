@@ -33,21 +33,21 @@ if assessment == "Final Grade (calculated)":
     st.subheader("Enter your marks for each component")
 
     if level == "HL":
-        p1 = st.number_input("Paper 1 (max 40%)", min_value=0, max_value=40, step=1)
-        p2 = st.number_input("Paper 2 (max 20%)", min_value=0, max_value=20, step=1)
-        p3 = st.number_input("Paper 3 (max 20%)", min_value=0, max_value=20, step=1)
-        ia = st.number_input("IA Solution (max 20%)", min_value=0, max_value=20, step=1)
+        p1 = st.number_input("Paper 1 (max 40%)", min_value=0, max_value=100, step=1)
+        p2 = st.number_input("Paper 2 (max 20%)", min_value=0, max_value=100, step=1)
+        p3 = st.number_input("Paper 3 (max 20%)", min_value=0, max_value=100, step=1)
+        ia = st.number_input("IA Solution (max 20%)", min_value=0, max_value=100, step=1)
 
         # Ponderação IB HL
         percentage = (p1 * 0.4) + (p2 * 0.2) + (p3 * 0.2) + (ia * 0.2)
 
     else:  # SL
-        p1 = st.number_input("Paper 1 (max 45%)", min_value=0, max_value=45, step=1)
-        p2 = st.number_input("Paper 2 (max 25%)", min_value=0, max_value=25, step=1)
-        ia = st.number_input("IA Solution (max 30%)", min_value=0, max_value=30, step=1)
+    p1 = st.number_input("Paper 1 (max 45%)", min_value=0, max_value=100, step=1)
+    p2 = st.number_input("Paper 2 (max 25%)", min_value=0, max_value=100, step=1)
+    ia = st.number_input("IA Solution (max 30%)", min_value=0, max_value=100, step=1)
 
-        # Ponderação IB SL
-        percentage = (p1 * 0.45) + (p2 * 0.25) + (ia * 0.30)
+    # Ponderação IB SL
+    percentage = (p1 * 0.45) + (p2 * 0.25) + (ia * 0.30)
 
     st.info(f"Calculated Final Grade Percentage: **{percentage:.2f}%**")
 
@@ -125,6 +125,7 @@ if ib_grade is not None:
 
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
 
 
 
