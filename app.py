@@ -14,7 +14,7 @@ st.markdown(
         <img src="https://raw.githubusercontent.com/MissGraci/Calculatorapp/main/PASB-New-Logo-2021_G.png" width="120">
     </div>
     <p style='text-align: center; color: gray;'>(only SUMMATIVE will be converted - Mrs. Dias, Gracielle)</p>
-    <p style='text-align: center; color: white;'>Please, enter your summative marks to see your IB range, Real Grade, PASB Range, and Converted PASB Value
+    <p style='text-align: center; color: white;'>Please, enter your summative marks to see your IB range, Real Grade, PASB Range, and Converted PASB Value</p>
     """,
     unsafe_allow_html=True
 )
@@ -28,33 +28,46 @@ if level == "HL":
 else:
     assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "IA Solution", "Final Grade (calculated)"])
 
-# Entrada de notas individuais
+# Máximos oficiais IB
+max_marks = {
+    "HL": {"Paper 1": 100, "Paper 2": 65, "Paper 3": 30, "IA Solution": 34, "Final Grade (calculated)": 100},
+    "SL": {"Paper 1": 70, "Paper 2": 45, "IA Solution": 34, "Final Grade (calculated)": 100}
+}
+
+# Entrada de notas
 if assessment == "Final Grade (calculated)":
     st.subheader("Enter your marks for each component")
 
     if level == "HL":
-        p1 = st.number_input("Paper 1 (max 40%)", min_value=0, max_value=100, step=1)
-        p2 = st.number_input("Paper 2 (max 20%)", min_value=0, max_value=100, step=1)
-        p3 = st.number_input("Paper 3 (max 20%)", min_value=0, max_value=100, step=1)
-        ia = st.number_input("IA Solution (max 20%)", min_value=0, max_value=100, step=1)
+        p1 = st.number_input("Paper 1 (40%)", min_value=0, max_value=100, step=1)
+        p2 = st.number_input("Paper 2 (20%)", min_value=0, max_value=100, step=1)
+        p3 = st.number_input("Paper 3 (20%)", min_value=0, max_value=100, step=1)
+        ia = st.number_input("IA Solution (20%)", min_value=0, max_value=100, step=1)
 
-        # Ponderação IB HL
         percentage = (p1 * 0.4) + (p2 * 0.2) + (p3 * 0.2) + (ia * 0.2)
 
     else:  # SL
-        p1 = st.number_input("Paper 1 (max 45%)", min_value=0, max_value=100, step=1)
-        p2 = st.number_input("Paper 2 (max 25%)", min_value=0, max_value=100, step=1)
-        ia = st.number_input("IA Solution (max 30%)", min_value=0, max_value=100, step=1)
+        p1 = st.number_input("Paper 1 (45%)", min_value=0, max_value=100, step=1)
+        p2 = st.number_input("Paper 2 (25%)", min_value=0, max_value=100, step=1)
+        ia = st.number_input("IA Solution (30%)", min_value=0, max_value=100, step=1)
 
-    # Ponderação IB SL
-    percentage = (p1 * 0.45) + (p2 * 0.25) + (ia * 0.30)
+        percentage = (p1 * 0.45) + (p2 * 0.25) + (ia * 0.30)
 
+    raw_ib = percentage  # já está em % → usamos direto
     st.info(f"Calculated Final Grade Percentage: **{percentage:.2f}%**")
 
 else:
     score = st.number_input("Your marks", min_value=0, step=1, format="%d")
     total = st.number_input("Total marks possible", min_value=1, step=1, format="%d")
-    percentage = (score / total) * 100 if total > 0 else 0
+
+    if total > 0:
+        percentage = (score / total) * 100
+        max_ib_marks = max_marks[level][assessment]
+        raw_ib = (score / total) * max_ib_marks  # conversão para escala IB
+
+        st.info(f"Your percentage: **{percentage:.2f}%**  |  Converted IB scale: **{raw_ib:.2f}/{max_ib_marks}**")
+    else:
+        percentage, raw_ib = 0, 0
 
 # Boundaries oficiais IB + ranges PASB
 boundaries_data = {
@@ -82,15 +95,15 @@ boundaries_data = {
     }
 }
 
-# Determinar grade
+# Determinar grade com base em raw_ib
 ib_grade, pasb_range, pasb_value = None, None, None
 selected_boundaries = boundaries_data[level][assessment]
 
 for low, high, grade, pasb_low, pasb_high in selected_boundaries:
-    if low <= percentage <= high:
+    if low <= raw_ib <= high:
         ib_grade = grade
         pasb_range = f"{pasb_low}–{pasb_high}"
-        pasb_value = pasb_low + (percentage - low) / (high - low) * (pasb_high - pasb_low)
+        pasb_value = pasb_low + (raw_ib - low) / (high - low) * (pasb_high - pasb_low)
         break
 
 if ib_grade is not None:
@@ -99,38 +112,17 @@ if ib_grade is not None:
     # Criar tabela como DataFrame
     results = {
         "Assessment": [assessment],
-        "IB range": [ib_grade],
-        "Real (IB grade)": [f"{percentage:.2f}"],
+        "IB Range": [ib_grade],
+        "Real %": [f"{percentage:.2f}%"],
+        "Converted IB Marks": [f"{raw_ib:.2f} / {max_marks[level][assessment]}"],
         "PASB GPA Range": [pasb_range],
         "Converted PASB Value": [f"{pasb_value:.2f}"]
     }
 
     df = pd.DataFrame(results)
 
-    # Estilizar dataframe
-    def highlight_table(val, col_name):
-        if col_name == "Real (IB grade)":
-            return "text-align:center; color: white; font-weight:600;"
-        elif col_name == "PASB GPA Range":
-            return "text-align:center; color: white; font-weight:600;"
-        elif col_name == "Converted PASB Value":
-            return "text-align:center; color: white; font-weight:600;"
-        else:
-            return "text-align:center;"
-
-    styled = df.style.applymap(lambda v: "text-align:center;", subset=df.columns)\
-                     .apply(lambda x: [highlight_table(v, x.name) for v in x], axis=0)
-
-    st.markdown(styled.to_html(), unsafe_allow_html=True)
+    # Mostrar como tabela bonitinha
+    st.dataframe(df, use_container_width=True)
 
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
-
-
-
-
-
-
-
-
-
