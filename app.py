@@ -75,7 +75,7 @@ if total > 0:
         st.divider()
 
         # --- HTML estilizado com azul, vermelho e cinza PASB ---
-       st.markdown(
+        st.markdown(
     f"""
     <div style="
         background-color:#f5f5f5; 
@@ -111,6 +111,7 @@ if total > 0:
 )
     else:
         st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
 
 
 
