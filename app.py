@@ -3,82 +3,9 @@ import pandas as pd
 
 st.set_page_config(page_title="Converted CS IBDP Calculator – Mrs Graci", layout="centered")
 
-# Cabeçalho
-st.markdown(
-    """
-    <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
-        <img src="https://raw.githubusercontent.com/MissGraci/Calculatorapp/main/ib-world-school-logo-2-colour-rev.png" width="60">
-        <h1 style="margin: 0; color: #1d427c; text-align: center;">
-            Converted CS IBDP Calculator
-        </h1>
-        <img src="https://raw.githubusercontent.com/MissGraci/Calculatorapp/main/PASB-New-Logo-2021_G.png" width="120">
-    </div>
-    <p style='text-align: center; color: gray;'>(only SUMMATIVE will be converted - Mrs. Dias, Gracielle)</p>
-    <p style='text-align: center; color: white;'>Please, enter your summative marks to see your IB range, Real Grade, PASB Range, and Converted PASB Value</p>
-    """,
-    unsafe_allow_html=True
-)
-
-# Escolha de nível
-level = st.radio("Select your course level:", ["SL", "HL"])
-
-# Escolha de avaliação
-if level == "HL":
-    assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "Paper 3", "IA Solution", "Final Grade (calculated)"])
-else:
-    assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "IA Solution", "Final Grade (calculated)"])
-
-# Máximos oficiais IB
-max_marks = {
-    "HL": {"Paper 1": 100, "Paper 2": 65, "Paper 3": 30, "IA Solution": 34, "Final Grade (calculated)": 100},
-    "SL": {"Paper 1": 70, "Paper 2": 45, "IA Solution": 34, "Final Grade (calculated)": 100}
-}
-
-# Entrada de notas
-if assessment == "Final Grade (calculated)":
-    st.subheader("Enter your marks for each component")
-
-    if level == "HL":
-        p1 = st.number_input("Paper 1 (40%)", min_value=0, max_value=100, step=1)
-        p2 = st.number_input("Paper 2 (20%)", min_value=0, max_value=100, step=1)
-        p3 = st.number_input("Paper 3 (20%)", min_value=0, max_value=100, step=1)
-        ia = st.number_input("IA Solution (20%)", min_value=0, max_value=100, step=1)
-
-        percentage = (p1 * 0.4) + (p2 * 0.2) + (p3 * 0.2) + (ia * 0.2)
-        raw_ib = percentage  # já está em % (0–100)
-
-    else:  # SL
-        p1 = st.number_input("Paper 1 (45%)", min_value=0, max_value=100, step=1)
-        p2 = st.number_input("Paper 2 (25%)", min_value=0, max_value=100, step=1)
-        ia = st.number_input("IA Solution (30%)", min_value=0, max_value=100, step=1)
-
-        percentage = (p1 * 0.45) + (p2 * 0.25) + (ia * 0.30)
-        raw_ib = percentage  # já está em % (0–100)
-
-    st.info(f"Calculated Final Grade Percentage: **{percentage:.2f}%**")
-
-else:
-    score = st.number_input("Your marks", min_value=0, step=1, format="%d")
-    total = st.number_input("Total marks possible", min_value=1, step=1, format="%d")
-
-    if total > 0:
-        percentage = (score / total) * 100
-        max_ib_marks = max_marks[level][assessment]
-        raw_ib = (score / total) * max_ib_marks  # conversão para escala IB
-
-        st.info(f"Your percentage: **{percentage:.2f}%**")
-        st.info(f"Converted IB scale: **{int(round(raw_ib))}/{max_ib_marks}**")
-
-        # Explicação automática
-        st.caption(
-            f"ℹ️ Your school percentage ({score}/{total} = {percentage:.2f}%) "
-            f"was converted to the official IB raw marks scale: {int(round(raw_ib))}/{max_ib_marks}. "
-            f"IB grade boundaries are always based on the official raw marks."
-        )
-    else:
-        percentage, raw_ib = 0, 0
-
-# Boundaries oficiais IB + ranges PASB
+# ------------------------------
+# Boundaries oficiais IB + PASB
+# ------------------------------
 boundaries_data = {
     "HL": {
         "Paper 1": [(0,11,1,30,49),(12,23,2,50,59),(24,35,3,60,69),(36,45,4,70,79),
@@ -104,55 +31,113 @@ boundaries_data = {
     }
 }
 
-# Determinar grade com base no raw_ib
-ib_grade, pasb_range, pasb_value = None, None, None
-selected_boundaries = boundaries_data[level][assessment]
+# Máximos oficiais IB
+max_marks = {
+    "HL": {"Paper 1": 100, "Paper 2": 65, "Paper 3": 30, "IA Solution": 34, "Final Grade (calculated)": 100},
+    "SL": {"Paper 1": 70, "Paper 2": 45, "IA Solution": 34, "Final Grade (calculated)": 100}
+}
 
-for low, high, grade, pasb_low, pasb_high in selected_boundaries:
-    if low <= raw_ib <= high:
-        ib_grade = grade
-        pasb_range = f"{pasb_low}–{pasb_high}"
-        pasb_value = pasb_low + (raw_ib - low) / (high - low) * (pasb_high - pasb_low)
-        break
+# Função para calcular IB Grade usando boundaries
+def calculate_ib_grade(level, assessment, score, total):
+    max_ib_marks = max_marks[level][assessment]
+    raw_ib = (score / total) * max_ib_marks if total > 0 else 0
+    grade, pasb_range, pasb_value = None, None, None
+    for low, high, g, pasb_low, pasb_high in boundaries_data[level][assessment]:
+        if low <= raw_ib <= high:
+            grade = g
+            pasb_range = f"{pasb_low}–{pasb_high}"
+            pasb_value = pasb_low + (raw_ib - low) / (high - low) * (pasb_high - pasb_low)
+            break
+    return int(round(raw_ib)), grade, pasb_range, pasb_value
 
-if ib_grade is not None:
-    st.divider()
-
-    # Criar tabela como DataFrame
-    results = {
-        "Assessment": [assessment],
-        "IB Range": [ib_grade],
-        "Real %": [f"{percentage:.2f}%"],
-        "Converted IB Marks": [f"{int(round(raw_ib))}/{max_marks[level][assessment]}"],
-        "PASB GPA Range": [pasb_range],
-        "Converted PASB Value": [f"{pasb_value:.2f}"]
-    }
-
-    df = pd.DataFrame(results)
-    st.dataframe(df, use_container_width=True)
-
-else:
-    st.warning("⚠️ Percentage is outside the defined IB boundaries.")
-
-# Footer note 
+# ------------------------------
+# Cabeçalho
+# ------------------------------
 st.markdown(
     """
-    <div style="margin-top:30px; padding:15px; background-color:#2c2c2c; border-radius:8px; font-size:13px; color:#cccccc;">
-    <b>ℹ️ Important note:</b><br><br>
-    The IB does not use percentages — it uses <b>raw marks</b>.<br><br>
-    Each IB assessment has a fixed number of raw marks:<br>
-    • SL Paper 1 → 70 marks<br>
-    • SL Paper 2 → 45 marks<br>
-    • HL Paper 1 → 100 marks<br>
-    • HL Paper 2 → 65 marks<br>
-    • HL Paper 3 → 30 marks<br>
-    • IA → 34 marks<br><br>
-    When the IB grades an assessment, they say:<br>
-    <i>“This student scored 52/70 on SL Paper 1”.</i><br><br>
-    And it is this number (52) that is applied to the <b>grade boundaries</b>.
+    <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+        <img src="https://raw.githubusercontent.com/MissGraci/Calculatorapp/main/ib-world-school-logo-2-colour-rev.png" width="60">
+        <h1 style="margin: 0; color: #1d427c; text-align: center;">
+            Converted CS IBDP Calculator
+        </h1>
+        <img src="https://raw.githubusercontent.com/MissGraci/Calculatorapp/main/PASB-New-Logo-2021_G.png" width="120">
     </div>
     """,
     unsafe_allow_html=True
 )
 
+# Escolha do modo
+mode = st.radio("Choose mode:", ["Student Mode", "Teacher Mode"])
 
+# =====================================================
+# STUDENT MODE
+# =====================================================
+if mode == "Student Mode":
+    st.subheader("Student Calculator")
+
+    level = st.radio("Select your course level:", ["SL", "HL"])
+    if level == "HL":
+        assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "Paper 3", "IA Solution", "Final Grade (calculated)"])
+    else:
+        assessment = st.selectbox("Select assessment:", ["Paper 1", "Paper 2", "IA Solution", "Final Grade (calculated)"])
+
+    score = st.number_input("Your marks", min_value=0, step=1, format="%d")
+    total = st.number_input("Total marks possible", min_value=1, step=1, format="%d")
+
+    raw_ib, ib_grade, pasb_range, pasb_value = calculate_ib_grade(level, assessment, score, total)
+
+    if ib_grade is not None:
+        st.success(f"Converted IB Marks: {raw_ib}/{max_marks[level][assessment]}  |  IB Grade: {ib_grade}")
+        st.info(f"PASB GPA Range: {pasb_range}  |  Converted PASB Value: {pasb_value:.2f}")
+
+# =====================================================
+# TEACHER MODE
+# =====================================================
+else:
+    st.subheader("Teacher Mode - IB Grade Predictor")
+
+    if "records" not in st.session_state:
+        st.session_state["records"] = pd.DataFrame(columns=[
+            "Student", "Level", "Paper 1", "Paper 2", "Paper 3", "IA", 
+            "Final %", "IB Grade", "PASB GPA Range", "Converted PASB Value"
+        ])
+
+    student = st.text_input("Student Name")
+    level = st.radio("Course Level:", ["SL", "HL"], key="teacher_level")
+    p1 = st.number_input("Paper 1", min_value=0, max_value=100, step=1)
+    p2 = st.number_input("Paper 2", min_value=0, max_value=100, step=1)
+    p3 = st.number_input("Paper 3", min_value=0, max_value=100, step=1) if level == "HL" else 0
+    ia = st.number_input("IA", min_value=0, max_value=100, step=1)
+
+    if st.button("Save Student Record"):
+        if level == "HL":
+            final_pct = (p1 * 0.4) + (p2 * 0.2) + (p3 * 0.2) + (ia * 0.2)
+        else:
+            final_pct = (p1 * 0.45) + (p2 * 0.25) + (ia * 0.30)
+
+        # Determinar IB grade pela escala "Final Grade (calculated)"
+        raw_ib, ib_grade, pasb_range, pasb_value = calculate_ib_grade(level, "Final Grade (calculated)", final_pct, 100)
+
+        new_record = {
+            "Student": student,
+            "Level": level,
+            "Paper 1": p1,
+            "Paper 2": p2,
+            "Paper 3": p3 if level == "HL" else "-",
+            "IA": ia,
+            "Final %": round(final_pct, 2),
+            "IB Grade": ib_grade,
+            "PASB GPA Range": pasb_range,
+            "Converted PASB Value": round(pasb_value, 2) if pasb_value else None
+        }
+        st.session_state["records"] = pd.concat([st.session_state["records"], pd.DataFrame([new_record])], ignore_index=True)
+
+    st.write("### Class Predictions")
+    st.dataframe(st.session_state["records"], use_container_width=True)
+
+    st.download_button(
+        label="Download CSV",
+        data=st.session_state["records"].to_csv(index=False),
+        file_name="ib_predicted_grades.csv",
+        mime="text/csv"
+    )
