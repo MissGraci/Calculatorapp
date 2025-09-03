@@ -87,8 +87,22 @@ if mode == "Student Mode":
     raw_ib, ib_grade, pasb_range, pasb_value = calculate_ib_grade(level, assessment, score, total)
 
     if ib_grade is not None:
+        # Caixas rápidas
         st.success(f"Converted IB Marks: {raw_ib}/{max_marks[level][assessment]}  |  IB Grade: {ib_grade}")
         st.info(f"PASB GPA Range: {pasb_range}  |  Converted PASB Value: {pasb_value:.2f}")
+
+        # Tabela detalhada
+        results = {
+            "Assessment": [assessment],
+            "IB Grade": [ib_grade],
+            "Real %": [f"{(score/total)*100:.2f}%" if total > 0 else "0%"],
+            "Converted IB Marks": [f"{raw_ib}/{max_marks[level][assessment]}"],
+            "PASB GPA Range": [pasb_range],
+            "Converted PASB Value": [f"{pasb_value:.2f}"]
+        }
+
+        df = pd.DataFrame(results)
+        st.dataframe(df, use_container_width=True)
 
 # =====================================================
 # TEACHER MODE
