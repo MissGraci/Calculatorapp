@@ -100,7 +100,7 @@ if ib_grade is not None:
     results = {
         "Assessment": [assessment],
         "IB range": [ib_grade],
-        "Real (IB grade): [f"{percentage:.2f}%"],
+        "Real (IB grade): [f"{percentage:2f}%"],
         "PASB GPA Range": [pasb_range],
         "Converted PASB Value": [f"{pasb_value:.2f}"]
     }
@@ -125,4 +125,5 @@ if ib_grade is not None:
 
 else:
     st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
 
