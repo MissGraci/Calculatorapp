@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 # Configuração da página
 st.set_page_config(page_title="Converted CS IBDP Calculator – Mrs Graci", layout="centered")
@@ -78,34 +79,17 @@ if total > 0:
     if ib_grade is not None:
         st.divider()
 
-        # HTML estilizado
-        html_result = f"""
-        <div style="background-color:#f5f5f5; color:#1d1d1d; padding:20px;
-                    border-radius:12px; border: 2px solid #1d427c;
-                    font-family:Arial, sans-serif; margin-top:20px;">
-            
-            <h3 style="margin-bottom:15px; color:#1d427c; text-align:center;">
-                📊 Results – {assessment}
-            </h3>
-            
-            <table style="width:100%; border-collapse: collapse; text-align:center;">
-                <tr style="background-color:#1d427c; color:white;">
-                    <th style="padding:10px;">IB Grade</th>
-                    <th style="padding:10px;">Real IB %</th>
-                    <th style="padding:10px;">PASB GPA Range</th>
-                    <th style="padding:10px;">Converted PASB Value</th>
-                </tr>
-                <tr style="background-color:#ffffff; color:#1d1d1d; font-weight:600;">
-                    <td style="padding:12px; border-bottom:1px solid #ccc;">{ib_grade}</td>
-                    <td style="padding:12px; border-bottom:1px solid #ccc; color:#d32f2f;">{percentage:.2f}%</td>
-                    <td style="padding:12px; border-bottom:1px solid #ccc; color:#1d427c;">{pasb_range}</td>
-                    <td style="padding:12px; border-bottom:1px solid #ccc; color:#444;">{pasb_value:.2f}</td>
-                </tr>
-            </table>
-        </div>
-        """
+        # Criar tabela como DataFrame
+        results = {
+            "Assessment": [assessment],
+            "IB Grade": [ib_grade],
+            "Real IB %": [f"{percentage:.2f}%"],
+            "PASB GPA Range": [pasb_range],
+            "Converted PASB Value": [f"{pasb_value:.2f}"]
+        }
 
-        st.markdown(html_result, unsafe_allow_html=True)
+        df = pd.DataFrame(results)
+        st.dataframe(df, use_container_width=True)
 
     else:
         st.warning("⚠️ Percentage is outside the defined IB boundaries.")
