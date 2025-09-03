@@ -11,12 +11,11 @@ st.markdown(
         </h1>
         <img src="https://raw.githubusercontent.com/MissGraci/Calculatorapp/main/PASB-New-Logo-2021_G.png" width="120">
     </div>
-    <p style='text-align: center; color: gray;'>(only SUMMATIVE will be converted)</p>
+    <p style='text-align: center; color: gray;'>(only SUMMATIVE will be converted - Mrs Dias Gracielle)</p>
+    st.write("Enter your summative mark to see your IB Grade, PASB Range, and Converted PASB Value:")
     """,
     unsafe_allow_html=True
 )
-
-st.write("Enter your summative mark to see your IB Grade, PASB Range, and Converted PASB Value:")
 
 # Escolha de nível
 level = st.radio("Select your level:", ["SL", "HL"])
@@ -87,4 +86,5 @@ if total > 0:
             st.metric("Converted PASB Value", f"{pasb_value:.2f}")
     else:
         st.warning("⚠️ Percentage is outside the defined IB boundaries.")
+
 
