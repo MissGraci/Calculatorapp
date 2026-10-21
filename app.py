@@ -111,7 +111,7 @@ st.markdown("""
 st.markdown(
     """
 <div class="main-header">
-<div class="header-kicker">PASB • Assessment Tool</div>
+<div class="header-kicker">PASB • Assessment Tool • Mrs. Graci Dias</div>
 <div class="header-title">IBDP Computer Science<br>Grade Converter</div>
 <div class="header-subtitle">Convert assessment performance into an estimated IB grade and PASB equivalent using the 2027 assessment structure.</div>
 <div class="badge-container">
