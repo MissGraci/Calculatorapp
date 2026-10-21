@@ -105,7 +105,7 @@ st.markdown("""
 st.markdown(
     """
 <div class="main-header">
-<div class="header-kicker">PASB • Assessment Tool</div>
+<div class="header-kicker">PASB • Assessment Tool • Mrs. Graci Dias </div>
 
 <div class="header-title">
 IBDP Computer Science<br>
