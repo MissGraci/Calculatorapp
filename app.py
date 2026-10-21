@@ -1,12 +1,13 @@
 import streamlit as st
 import math
 
+
 # ============================================================
 # PAGE CONFIG
 # ============================================================
 
 st.set_page_config(
-    page_title="IBDP Computer Science Grade Converter - Mrs. Graci",
+    page_title="IBDP Computer Science Grade Converter",
     page_icon="💻",
     layout="centered"
 )
@@ -16,63 +17,91 @@ st.set_page_config(
 # CUSTOM CSS
 # ============================================================
 
-st.markdown(
-    """
-    <style>
+st.markdown("""
+<style>
 
-    .main-header {
-        background: linear-gradient(135deg, #162A46 0%, #294D73 100%);
-        padding: 2rem 2rem 1.7rem 2rem;
-        border-radius: 18px;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    }
+.main-header {
+    background: linear-gradient(135deg, #18304f 0%, #294f78 100%);
+    padding: 36px 42px;
+    border-radius: 22px;
+    margin-bottom: 24px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
 
-    .main-header h1 {
-        color: white;
-        margin: 0;
-        font-size: 2.2rem;
-        font-weight: 700;
-    }
+.header-kicker {
+    color: #b9cbe0;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
 
-    .main-header p {
-        color: #DCE6F2;
-        margin-top: 0.6rem;
-        margin-bottom: 0;
-        font-size: 1rem;
-    }
+.header-title {
+    color: white;
+    font-size: 42px;
+    font-weight: 750;
+    line-height: 1.15;
+    margin-bottom: 14px;
+}
 
-    .badge {
-        display: inline-block;
-        background-color: rgba(255,255,255,0.16);
-        color: white;
-        padding: 0.3rem 0.7rem;
-        border-radius: 20px;
-        margin-right: 0.4rem;
-        margin-top: 0.8rem;
-        font-size: 0.82rem;
-    }
+.header-subtitle {
+    color: #dce7f4;
+    font-size: 17px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+    max-width: 800px;
+}
 
-    .info-box {
-        background-color: #F2F6FA;
-        border-left: 5px solid #294D73;
-        padding: 1rem 1.2rem;
-        border-radius: 8px;
-        margin-bottom: 1.3rem;
-    }
+.badge-container {
+    margin-top: 16px;
+}
 
-    .result-box {
-        background-color: #F7F9FC;
-        border: 1px solid #DCE3EB;
-        border-radius: 12px;
-        padding: 1rem 1.2rem;
-        margin-top: 1rem;
-    }
+.badge {
+    display: inline-block;
+    background-color: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.22);
+    color: white;
+    padding: 7px 14px;
+    border-radius: 20px;
+    margin-right: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
 
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+.info-box {
+    background-color: #edf3f8;
+    border-left: 5px solid #294f78;
+    padding: 17px 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    color: #1d2d3e;
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.info-box strong {
+    color: #18304f;
+}
+
+.result-box {
+    background-color: rgba(237, 243, 248, 0.08);
+    border: 1px solid rgba(120, 145, 170, 0.35);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+.small-note {
+    color: #7f8fa4;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 
 # ============================================================
@@ -81,32 +110,31 @@ st.markdown(
 
 st.markdown(
     """
-    <div class="main-header">
-        <h1>💻 IBDP Computer Science Grade Converter</h1>
-
-        <p>
-        Convert assessment performance into an estimated IB grade
-        and PASB equivalent using the 2027 assessment structure.
-        </p>
-
-        <span class="badge">IBDP Computer Science</span>
-        <span class="badge">First Assessment 2027</span>
-        <span class="badge">PASB Conversion</span>
-    </div>
-    """,
+<div class="main-header">
+<div class="header-kicker">PASB • Assessment Tool</div>
+<div class="header-title">IBDP Computer Science<br>Grade Converter</div>
+<div class="header-subtitle">Convert assessment performance into an estimated IB grade and PASB equivalent using the 2027 assessment structure.</div>
+<div class="badge-container">
+<span class="badge">IBDP Computer Science</span>
+<span class="badge">First Assessment 2027</span>
+<span class="badge">PASB Conversion</span>
+</div>
+</div>
+""",
     unsafe_allow_html=True
 )
 
 
+# ============================================================
+# INFORMATION BOX
+# ============================================================
+
 st.markdown(
     """
-    <div class="info-box">
-        <b>Boundary reference:</b> This calculator uses the official
-        2027 assessment structure. Since official 2027 grade boundaries
-        are not yet available, the May 2025 boundaries are used as a
-        proportional reference for estimation.
-    </div>
-    """,
+<div class="info-box">
+<strong>Boundary reference:</strong> This calculator uses the official 2027 assessment structure. Since official 2027 grade boundaries are not yet available, May 2025 boundaries are used only as a proportional reference for estimation.
+</div>
+""",
     unsafe_allow_html=True
 )
 
@@ -127,23 +155,18 @@ PASB_RANGES = {
 
 
 # ============================================================
-# 2025 REFERENCE BOUNDARIES
-# ============================================================
+# MAY 2025 REFERENCE BOUNDARIES
 #
-# These are the boundaries supplied from the 2025 session.
-#
-# They are NOT official 2027 boundaries.
-#
-# They are used proportionally to estimate equivalent grade bands
-# under the new 2027 component structure.
-#
+# Important:
+# These are NOT official 2027 grade boundaries.
+# They are used only as a proportional reference.
 # ============================================================
 
 REFERENCE_BOUNDARIES = {
 
-    # --------------------------------------------------------
+    # ========================================================
     # HL - TIMEZONE 2
-    # --------------------------------------------------------
+    # ========================================================
 
     ("HL", "Timezone 2"): {
 
@@ -189,9 +212,9 @@ REFERENCE_BOUNDARIES = {
     },
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # HL - TIMEZONE 3
-    # --------------------------------------------------------
+    # ========================================================
 
     ("HL", "Timezone 3"): {
 
@@ -237,9 +260,9 @@ REFERENCE_BOUNDARIES = {
     },
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # SL - TIMEZONE 2
-    # --------------------------------------------------------
+    # ========================================================
 
     ("SL", "Timezone 2"): {
 
@@ -285,9 +308,9 @@ REFERENCE_BOUNDARIES = {
     },
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # SL - TIMEZONE 3
-    # --------------------------------------------------------
+    # ========================================================
 
     ("SL", "Timezone 3"): {
 
@@ -336,7 +359,8 @@ REFERENCE_BOUNDARIES = {
 
 # ============================================================
 # 2025 COMPONENT MAXIMUMS
-# Used only to convert old boundaries into percentages
+#
+# Used ONLY to transform old raw boundaries into percentages.
 # ============================================================
 
 REFERENCE_MAX_MARKS = {
@@ -356,7 +380,7 @@ REFERENCE_MAX_MARKS = {
 
 
 # ============================================================
-# OFFICIAL 2027 STRUCTURE
+# OFFICIAL 2027 ASSESSMENT STRUCTURE
 # ============================================================
 
 MAX_MARKS_2027 = {
@@ -396,30 +420,61 @@ WEIGHTS_2027 = {
 # ============================================================
 
 def round_half_up(number):
+    """
+    Rounds .5 upward.
+
+    Examples:
+    54.4 -> 54
+    54.5 -> 55
+    54.6 -> 55
+    """
     return math.floor(number + 0.5)
 
 
 def get_reference_grade(level, timezone, assessment, percentage):
+    """
+    Converts the 2025 raw mark boundaries into percentage-based
+    reference boundaries.
+
+    Example:
+    If Grade 7 began at 45/65:
+    45/65 = approximately 69.2%
+
+    That percentage is then used as the provisional reference.
+    """
 
     boundaries = REFERENCE_BOUNDARIES[
         (level, timezone)
     ][assessment]
 
-    reference_max = REFERENCE_MAX_MARKS[level][assessment]
-
-    reference_mark = percentage * reference_max / 100
+    reference_max = REFERENCE_MAX_MARKS[
+        level
+    ][assessment]
 
     for low, high, grade in boundaries:
 
-        if low <= reference_mark <= high + 0.999999:
+        low_percentage = (
+            low / reference_max
+        ) * 100
 
-            low_percentage = (
-                low / reference_max
-            ) * 100
-
+        # +1 is used because IB raw boundaries are whole-mark bands.
+        # Example:
+        # 59-68 really covers percentages from 59.0 up to
+        # just before the next boundary starts.
+        if high < reference_max:
             high_percentage = (
-                high / reference_max
+                (high + 1) / reference_max
             ) * 100
+        else:
+            high_percentage = 100.0
+
+        if (
+            percentage >= low_percentage
+            and percentage < high_percentage
+        ) or (
+            percentage == 100
+            and high == reference_max
+        ):
 
             return (
                 grade,
@@ -431,6 +486,10 @@ def get_reference_grade(level, timezone, assessment, percentage):
 
 
 def get_final_grade(level, timezone, percentage):
+    """
+    Determines an estimated final IB grade using the
+    2025 final-grade boundaries as reference.
+    """
 
     boundaries = REFERENCE_BOUNDARIES[
         (level, timezone)
@@ -438,19 +497,28 @@ def get_final_grade(level, timezone, percentage):
 
     for low, high, grade in boundaries:
 
-        if low <= percentage <= high + 0.999999:
+        if (
+            low <= percentage < high + 1
+        ) or (
+            percentage == 100
+            and high == 100
+        ):
 
-            return grade, low, high
+            return grade, low, min(high + 1, 100)
 
     return None, None, None
 
 
 def calculate_pasb(
-    percentage,
+    value,
     grade,
     lower_boundary,
     upper_boundary
 ):
+    """
+    Calculates a PASB grade by linear interpolation inside
+    the equivalent IB grade band.
+    """
 
     pasb_low, pasb_high = PASB_RANGES[grade]
 
@@ -458,7 +526,7 @@ def calculate_pasb(
         return float(pasb_low)
 
     position = (
-        percentage - lower_boundary
+        value - lower_boundary
     ) / (
         upper_boundary - lower_boundary
     )
@@ -468,18 +536,20 @@ def calculate_pasb(
         min(position, 1)
     )
 
-    return (
+    pasb_value = (
         pasb_low
         + position
         * (pasb_high - pasb_low)
     )
 
+    return pasb_value
+
 
 # ============================================================
-# MODE
+# ASSESSMENT SETUP
 # ============================================================
 
-st.subheader("Assessment setup")
+st.subheader("Assessment Setup")
 
 mode = st.radio(
     "Choose calculation mode",
@@ -502,13 +572,13 @@ with col1:
 with col2:
 
     timezone = st.selectbox(
-        "Boundary Reference",
+        "2025 Boundary Reference",
         ["Timezone 2", "Timezone 3"]
     )
 
 
 # ============================================================
-# SINGLE ASSESSMENT
+# SINGLE ASSESSMENT MODE
 # ============================================================
 
 if mode == "Single Assessment":
@@ -551,23 +621,33 @@ if mode == "Single Assessment":
             step=1.0
         )
 
-    if st.button(
-        "Calculate grade",
+    calculate = st.button(
+        "Calculate Grade",
         use_container_width=True
-    ):
+    )
+
+    if calculate:
 
         if score > total:
 
             st.error(
-                "Student marks cannot be greater "
-                "than the total marks possible."
+                "Student marks cannot be greater than "
+                "the total marks possible."
             )
 
         else:
 
+            # ------------------------------------------------
+            # RAW PERCENTAGE
+            # ------------------------------------------------
+
             percentage = (
                 score / total
             ) * 100
+
+            # ------------------------------------------------
+            # EQUIVALENT 2027 COMPONENT MARK
+            # ------------------------------------------------
 
             equivalent_mark = (
                 percentage / 100
@@ -578,6 +658,10 @@ if mode == "Single Assessment":
                     equivalent_mark
                 )
             )
+
+            # ------------------------------------------------
+            # ESTIMATED IB GRADE
+            # ------------------------------------------------
 
             (
                 grade,
@@ -590,82 +674,91 @@ if mode == "Single Assessment":
                 percentage
             )
 
-            pasb = calculate_pasb(
-                percentage,
-                grade,
-                boundary_low,
-                boundary_high
-            )
+            if grade is None:
 
-            pasb_rounded = round_half_up(
-                pasb
-            )
-
-            st.markdown(
-                """
-                <div class="result-box">
-                """,
-                unsafe_allow_html=True
-            )
-
-            st.subheader("Assessment Result")
-
-            c1, c2, c3 = st.columns(3)
-
-            with c1:
-
-                st.metric(
-                    "Raw Score",
-                    f"{percentage:.1f}%"
+                st.error(
+                    "Unable to determine the estimated IB grade."
                 )
 
-            with c2:
+            else:
 
-                st.metric(
-                    "Estimated IB Grade",
-                    grade
+                # --------------------------------------------
+                # PASB CONVERSION
+                # --------------------------------------------
+
+                pasb = calculate_pasb(
+                    percentage,
+                    grade,
+                    boundary_low,
+                    boundary_high
                 )
 
-            with c3:
-
-                st.metric(
-                    "PASB Grade",
-                    pasb_rounded
+                pasb_rounded = (
+                    round_half_up(pasb)
                 )
 
-            st.write(
-                f"**Equivalent 2027 {assessment} mark:** "
-                f"{equivalent_mark:.1f}/{official_max}"
-            )
+                pasb_low, pasb_high = (
+                    PASB_RANGES[grade]
+                )
 
-            st.write(
-                f"**Reference IB boundary:** "
-                f"{boundary_low:.1f}% – "
-                f"{boundary_high:.1f}%"
-            )
+                # --------------------------------------------
+                # RESULTS
+                # --------------------------------------------
 
-            pasb_low, pasb_high = (
-                PASB_RANGES[grade]
-            )
+                st.divider()
 
-            st.write(
-                f"**PASB band:** "
-                f"{pasb_low}–{pasb_high}"
-            )
+                st.subheader(
+                    "Assessment Result"
+                )
 
-            st.write(
-                f"**Exact PASB conversion:** "
-                f"{pasb:.2f}"
-            )
+                c1, c2, c3 = st.columns(3)
 
-            st.markdown(
-                "</div>",
-                unsafe_allow_html=True
-            )
+                with c1:
+
+                    st.metric(
+                        "Raw Score",
+                        f"{percentage:.1f}%"
+                    )
+
+                with c2:
+
+                    st.metric(
+                        "Estimated IB Grade",
+                        grade
+                    )
+
+                with c3:
+
+                    st.metric(
+                        "PASB Grade",
+                        pasb_rounded
+                    )
+
+                st.markdown(
+                    f"""
+<div class="result-box">
+<strong>Equivalent 2027 {assessment} mark:</strong>
+{equivalent_mark:.1f}/{official_max}<br><br>
+
+<strong>Estimated IB grade:</strong>
+{grade}<br><br>
+
+<strong>Reference boundary:</strong>
+{boundary_low:.1f}% – {boundary_high:.1f}%<br><br>
+
+<strong>PASB band:</strong>
+{pasb_low}–{pasb_high}<br><br>
+
+<strong>Exact PASB conversion:</strong>
+{pasb:.2f}
+</div>
+""",
+                    unsafe_allow_html=True
+                )
 
 
 # ============================================================
-# FINAL IB GRADE
+# FINAL IB GRADE MODE
 # ============================================================
 
 else:
@@ -680,19 +773,31 @@ else:
         "Enter each component result as a percentage."
     )
 
+    # --------------------------------------------------------
+    # WEIGHTING INFORMATION
+    # --------------------------------------------------------
+
     if level == "HL":
 
         st.info(
-            "HL weighting: Paper 1 = 40% · "
-            "Paper 2 = 40% · IA = 20%"
+            "2027 HL weighting: "
+            "Paper 1 = 40% · "
+            "Paper 2 = 40% · "
+            "IA = 20%"
         )
 
     else:
 
         st.info(
-            "SL weighting: Paper 1 = 35% · "
-            "Paper 2 = 35% · IA = 30%"
+            "2027 SL weighting: "
+            "Paper 1 = 35% · "
+            "Paper 2 = 35% · "
+            "IA = 30%"
         )
+
+    # --------------------------------------------------------
+    # COMPONENT INPUTS
+    # --------------------------------------------------------
 
     p1 = st.number_input(
         "Paper 1 (%)",
@@ -715,18 +820,28 @@ else:
         step=0.5
     )
 
-    if st.button(
-        "Calculate final grade",
+    calculate_final = st.button(
+        "Calculate Final Grade",
         use_container_width=True
-    ):
+    )
+
+    if calculate_final:
 
         weights = WEIGHTS_2027[level]
+
+        # ----------------------------------------------------
+        # WEIGHTED FINAL RESULT
+        # ----------------------------------------------------
 
         final_percentage = (
             p1 * weights["Paper 1"]
             + p2 * weights["Paper 2"]
             + ia * weights["IA"]
         )
+
+        # ----------------------------------------------------
+        # ESTIMATED IB FINAL GRADE
+        # ----------------------------------------------------
 
         (
             final_grade,
@@ -738,74 +853,87 @@ else:
             final_percentage
         )
 
-        pasb = calculate_pasb(
-            final_percentage,
-            final_grade,
-            final_low,
-            final_high
-        )
+        if final_grade is None:
 
-        pasb_rounded = (
-            round_half_up(pasb)
-        )
-
-        st.markdown(
-            """
-            <div class="result-box">
-            """,
-            unsafe_allow_html=True
-        )
-
-        st.subheader(
-            "Final Course Result"
-        )
-
-        c1, c2, c3 = st.columns(3)
-
-        with c1:
-
-            st.metric(
-                "Weighted Result",
-                f"{final_percentage:.1f}%"
+            st.error(
+                "Unable to determine the estimated final IB grade."
             )
 
-        with c2:
+        else:
 
-            st.metric(
-                "Estimated IB Grade",
-                final_grade
+            # ------------------------------------------------
+            # PASB CONVERSION
+            # ------------------------------------------------
+
+            pasb = calculate_pasb(
+                final_percentage,
+                final_grade,
+                final_low,
+                final_high
             )
 
-        with c3:
-
-            st.metric(
-                "PASB Grade",
-                pasb_rounded
+            pasb_rounded = (
+                round_half_up(pasb)
             )
 
-        st.write(
-            f"**Reference final boundary:** "
-            f"{final_low}–{final_high}%"
-        )
+            pasb_low, pasb_high = (
+                PASB_RANGES[final_grade]
+            )
 
-        pasb_low, pasb_high = (
-            PASB_RANGES[final_grade]
-        )
+            # ------------------------------------------------
+            # RESULTS
+            # ------------------------------------------------
 
-        st.write(
-            f"**PASB band:** "
-            f"{pasb_low}–{pasb_high}"
-        )
+            st.divider()
 
-        st.write(
-            f"**Exact PASB conversion:** "
-            f"{pasb:.2f}"
-        )
+            st.subheader(
+                "Final Course Result"
+            )
 
-        st.markdown(
-            "</div>",
-            unsafe_allow_html=True
-        )
+            c1, c2, c3 = st.columns(3)
+
+            with c1:
+
+                st.metric(
+                    "Weighted Result",
+                    f"{final_percentage:.1f}%"
+                )
+
+            with c2:
+
+                st.metric(
+                    "Estimated IB Grade",
+                    final_grade
+                )
+
+            with c3:
+
+                st.metric(
+                    "PASB Grade",
+                    pasb_rounded
+                )
+
+            st.markdown(
+                f"""
+<div class="result-box">
+<strong>Weighted result:</strong>
+{final_percentage:.2f}%<br><br>
+
+<strong>Estimated IB grade:</strong>
+{final_grade}<br><br>
+
+<strong>Reference final boundary:</strong>
+{final_low:.0f}% – {final_high:.0f}%<br><br>
+
+<strong>PASB band:</strong>
+{pasb_low}–{pasb_high}<br><br>
+
+<strong>Exact PASB conversion:</strong>
+{pasb:.2f}
+</div>
+""",
+                unsafe_allow_html=True
+            )
 
 
 # ============================================================
@@ -820,6 +948,6 @@ st.caption(
 )
 
 st.caption(
-    "Grade estimates are based on May 2025 boundary patterns "
-    "and should not be interpreted as official 2027 IB grade boundaries."
+    "Grade estimates use May 2025 grade boundaries only as a "
+    "proportional reference. They are not official 2027 IB grade boundaries."
 )
