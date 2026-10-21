@@ -134,13 +134,11 @@ st.markdown(
 This calculator uses the official 2027 assessment structure.
 Because official 2027 grade boundaries are not yet available,
 May 2025 Computer Science boundaries are used as a provisional
-percentage-based reference. The provisional thresholds are based
-on the average of the available 2025 TZ2 and TZ3 boundaries.
+percentage-based reference.
 </div>
 """,
     unsafe_allow_html=True
 )
-
 
 # ============================================================
 # PASB RANGES
