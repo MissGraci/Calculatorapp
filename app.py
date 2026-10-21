@@ -94,12 +94,6 @@ st.markdown("""
     margin-bottom: 18px;
 }
 
-.small-note {
-    color: #7f8fa4;
-    font-size: 13px;
-    line-height: 1.45;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -111,9 +105,13 @@ st.markdown("""
 st.markdown(
     """
 <div class="main-header">
-<div class="header-kicker">PASB • Assessment Tool • Mrs. Graci Dias</div>
+<div class="header-kicker">PASB • Assessment • Mrs. Graci Dias Tool</div>
 <div class="header-title">IBDP Computer Science<br>Grade Converter</div>
-<div class="header-subtitle">Convert assessment performance into an estimated IB grade and PASB equivalent using the 2027 assessment structure.</div>
+<div class="header-subtitle">
+Convert assessment performance into an estimated IB grade
+and PASB equivalent using the 2027 assessment structure.
+</div>
+
 <div class="badge-container">
 <span class="badge">IBDP Computer Science</span>
 <span class="badge">First Assessment 2027</span>
@@ -132,7 +130,12 @@ st.markdown(
 st.markdown(
     """
 <div class="info-box">
-<strong>Boundary reference:</strong> This calculator uses the official 2027 assessment structure. Since official 2027 grade boundaries are not yet available, May 2025 boundaries are used only as a proportional reference for estimation.
+<strong>Boundary reference:</strong>
+This calculator uses the official 2027 assessment structure.
+Because official 2027 grade boundaries are not yet available,
+May 2025 Computer Science boundaries are used as a provisional
+percentage-based reference. The provisional thresholds are based
+on the average of the available 2025 TZ2 and TZ3 boundaries.
 </div>
 """,
     unsafe_allow_html=True
@@ -155,212 +158,190 @@ PASB_RANGES = {
 
 
 # ============================================================
-# MAY 2025 REFERENCE BOUNDARIES
-#
-# Important:
-# These are NOT official 2027 grade boundaries.
-# They are used only as a proportional reference.
+# 2025 SOURCE BOUNDARIES
 # ============================================================
 
-REFERENCE_BOUNDARIES = {
+BOUNDARIES_2025 = {
 
-    # ========================================================
-    # HL - TIMEZONE 2
-    # ========================================================
+    "HL": {
 
-    ("HL", "Timezone 2"): {
+        "TZ2": {
+            "Paper 1": [
+                (0, 17, 1),
+                (18, 35, 2),
+                (36, 48, 3),
+                (49, 58, 4),
+                (59, 68, 5),
+                (69, 78, 6),
+                (79, 100, 7),
+            ],
 
-        "Paper 1": [
-            (0, 17, 1),
-            (18, 35, 2),
-            (36, 48, 3),
-            (49, 58, 4),
-            (59, 68, 5),
-            (69, 78, 6),
-            (79, 100, 7),
-        ],
+            "Paper 2": [
+                (0, 10, 1),
+                (11, 21, 2),
+                (22, 26, 3),
+                (27, 32, 4),
+                (33, 38, 5),
+                (39, 44, 6),
+                (45, 65, 7),
+            ],
 
-        "Paper 2": [
-            (0, 10, 1),
-            (11, 21, 2),
-            (22, 26, 3),
-            (27, 32, 4),
-            (33, 38, 5),
-            (39, 44, 6),
-            (45, 65, 7),
-        ],
+            "IA": [
+                (0, 4, 1),
+                (5, 9, 2),
+                (10, 14, 3),
+                (15, 18, 4),
+                (19, 22, 5),
+                (23, 26, 6),
+                (27, 34, 7),
+            ],
 
-        "IA": [
-            (0, 4, 1),
-            (5, 9, 2),
-            (10, 14, 3),
-            (15, 18, 4),
-            (19, 22, 5),
-            (23, 26, 6),
-            (27, 34, 7),
-        ],
+            "Final Grade": [
+                (0, 14, 1),
+                (15, 30, 2),
+                (31, 42, 3),
+                (43, 52, 4),
+                (53, 63, 5),
+                (64, 73, 6),
+                (74, 100, 7),
+            ],
+        },
 
-        "Final Grade": [
-            (0, 14, 1),
-            (15, 30, 2),
-            (31, 42, 3),
-            (43, 52, 4),
-            (53, 63, 5),
-            (64, 73, 6),
-            (74, 100, 7),
-        ],
+        "TZ3": {
+            "Paper 1": [
+                (0, 17, 1),
+                (18, 35, 2),
+                (36, 48, 3),
+                (49, 58, 4),
+                (59, 69, 5),
+                (70, 79, 6),
+                (80, 100, 7),
+            ],
+
+            "Paper 2": [
+                (0, 10, 1),
+                (11, 20, 2),
+                (21, 26, 3),
+                (27, 32, 4),
+                (33, 37, 5),
+                (38, 43, 6),
+                (44, 65, 7),
+            ],
+
+            "IA": [
+                (0, 4, 1),
+                (5, 9, 2),
+                (10, 14, 3),
+                (15, 18, 4),
+                (19, 22, 5),
+                (23, 26, 6),
+                (27, 34, 7),
+            ],
+
+            "Final Grade": [
+                (0, 16, 1),
+                (17, 33, 2),
+                (34, 45, 3),
+                (46, 54, 4),
+                (55, 64, 5),
+                (65, 73, 6),
+                (74, 100, 7),
+            ],
+        },
     },
 
 
-    # ========================================================
-    # HL - TIMEZONE 3
-    # ========================================================
+    "SL": {
 
-    ("HL", "Timezone 3"): {
+        "TZ2": {
+            "Paper 1": [
+                (0, 8, 1),
+                (9, 17, 2),
+                (18, 29, 3),
+                (30, 37, 4),
+                (38, 45, 5),
+                (46, 53, 6),
+                (54, 70, 7),
+            ],
 
-        "Paper 1": [
-            (0, 17, 1),
-            (18, 35, 2),
-            (36, 48, 3),
-            (49, 58, 4),
-            (59, 69, 5),
-            (70, 79, 6),
-            (80, 100, 7),
-        ],
+            "Paper 2": [
+                (0, 8, 1),
+                (9, 16, 2),
+                (17, 21, 3),
+                (22, 24, 4),
+                (25, 26, 5),
+                (27, 29, 6),
+                (30, 45, 7),
+            ],
 
-        "Paper 2": [
-            (0, 10, 1),
-            (11, 20, 2),
-            (21, 26, 3),
-            (27, 32, 4),
-            (33, 37, 5),
-            (38, 43, 6),
-            (44, 65, 7),
-        ],
+            "IA": [
+                (0, 4, 1),
+                (5, 9, 2),
+                (10, 14, 3),
+                (15, 18, 4),
+                (19, 22, 5),
+                (23, 26, 6),
+                (27, 34, 7),
+            ],
 
-        "IA": [
-            (0, 4, 1),
-            (5, 9, 2),
-            (10, 14, 3),
-            (15, 18, 4),
-            (19, 22, 5),
-            (23, 26, 6),
-            (27, 34, 7),
-        ],
+            "Final Grade": [
+                (0, 13, 1),
+                (14, 28, 2),
+                (29, 43, 3),
+                (44, 53, 4),
+                (54, 63, 5),
+                (64, 73, 6),
+                (74, 100, 7),
+            ],
+        },
 
-        "Final Grade": [
-            (0, 16, 1),
-            (17, 33, 2),
-            (34, 45, 3),
-            (46, 54, 4),
-            (55, 64, 5),
-            (65, 73, 6),
-            (74, 100, 7),
-        ],
-    },
+        "TZ3": {
+            "Paper 1": [
+                (0, 8, 1),
+                (9, 17, 2),
+                (18, 27, 3),
+                (28, 34, 4),
+                (35, 42, 5),
+                (43, 49, 6),
+                (50, 70, 7),
+            ],
 
+            "Paper 2": [
+                (0, 8, 1),
+                (9, 16, 2),
+                (17, 22, 3),
+                (23, 24, 4),
+                (25, 26, 5),
+                (27, 28, 6),
+                (29, 45, 7),
+            ],
 
-    # ========================================================
-    # SL - TIMEZONE 2
-    # ========================================================
+            "IA": [
+                (0, 4, 1),
+                (5, 9, 2),
+                (10, 14, 3),
+                (15, 18, 4),
+                (19, 22, 5),
+                (23, 26, 6),
+                (27, 34, 7),
+            ],
 
-    ("SL", "Timezone 2"): {
-
-        "Paper 1": [
-            (0, 8, 1),
-            (9, 17, 2),
-            (18, 29, 3),
-            (30, 37, 4),
-            (38, 45, 5),
-            (46, 53, 6),
-            (54, 70, 7),
-        ],
-
-        "Paper 2": [
-            (0, 8, 1),
-            (9, 16, 2),
-            (17, 21, 3),
-            (22, 24, 4),
-            (25, 26, 5),
-            (27, 29, 6),
-            (30, 45, 7),
-        ],
-
-        "IA": [
-            (0, 4, 1),
-            (5, 9, 2),
-            (10, 14, 3),
-            (15, 18, 4),
-            (19, 22, 5),
-            (23, 26, 6),
-            (27, 34, 7),
-        ],
-
-        "Final Grade": [
-            (0, 13, 1),
-            (14, 28, 2),
-            (29, 43, 3),
-            (44, 53, 4),
-            (54, 63, 5),
-            (64, 73, 6),
-            (74, 100, 7),
-        ],
-    },
-
-
-    # ========================================================
-    # SL - TIMEZONE 3
-    # ========================================================
-
-    ("SL", "Timezone 3"): {
-
-        "Paper 1": [
-            (0, 8, 1),
-            (9, 17, 2),
-            (18, 27, 3),
-            (28, 34, 4),
-            (35, 42, 5),
-            (43, 49, 6),
-            (50, 70, 7),
-        ],
-
-        "Paper 2": [
-            (0, 8, 1),
-            (9, 16, 2),
-            (17, 22, 3),
-            (23, 24, 4),
-            (25, 26, 5),
-            (27, 28, 6),
-            (29, 45, 7),
-        ],
-
-        "IA": [
-            (0, 4, 1),
-            (5, 9, 2),
-            (10, 14, 3),
-            (15, 18, 4),
-            (19, 22, 5),
-            (23, 26, 6),
-            (27, 34, 7),
-        ],
-
-        "Final Grade": [
-            (0, 13, 1),
-            (14, 28, 2),
-            (29, 42, 3),
-            (43, 51, 4),
-            (52, 61, 5),
-            (62, 70, 6),
-            (71, 100, 7),
-        ],
+            "Final Grade": [
+                (0, 13, 1),
+                (14, 28, 2),
+                (29, 42, 3),
+                (43, 51, 4),
+                (52, 61, 5),
+                (62, 70, 6),
+                (71, 100, 7),
+            ],
+        },
     },
 }
 
 
 # ============================================================
-# 2025 COMPONENT MAXIMUMS
-#
-# Used ONLY to transform old raw boundaries into percentages.
+# OLD 2025 COMPONENT MAXIMUMS
 # ============================================================
 
 REFERENCE_MAX_MARKS = {
@@ -380,7 +361,7 @@ REFERENCE_MAX_MARKS = {
 
 
 # ============================================================
-# OFFICIAL 2027 ASSESSMENT STRUCTURE
+# OFFICIAL 2027 STRUCTURE
 # ============================================================
 
 MAX_MARKS_2027 = {
@@ -420,91 +401,166 @@ WEIGHTS_2027 = {
 # ============================================================
 
 def round_half_up(number):
-    """
-    Rounds .5 upward.
-
-    Examples:
-    54.4 -> 54
-    54.5 -> 55
-    54.6 -> 55
-    """
     return math.floor(number + 0.5)
 
 
-def get_reference_grade(level, timezone, assessment, percentage):
+def get_grade_lower_boundary(boundaries, grade):
+    for low, high, g in boundaries:
+        if g == grade:
+            return low
+    return None
+
+
+def build_average_percentage_boundaries(level, assessment):
     """
-    Converts the 2025 raw mark boundaries into percentage-based
-    reference boundaries.
-
-    Example:
-    If Grade 7 began at 45/65:
-    45/65 = approximately 69.2%
-
-    That percentage is then used as the provisional reference.
+    Builds provisional percentage boundaries using the average
+    of the 2025 TZ2 and TZ3 lower thresholds.
     """
 
-    boundaries = REFERENCE_BOUNDARIES[
-        (level, timezone)
-    ][assessment]
+    max_old = REFERENCE_MAX_MARKS[level][assessment]
 
-    reference_max = REFERENCE_MAX_MARKS[
-        level
-    ][assessment]
+    tz2 = BOUNDARIES_2025[level]["TZ2"][assessment]
+    tz3 = BOUNDARIES_2025[level]["TZ3"][assessment]
+
+    lower_thresholds = {}
+
+    for grade in range(1, 8):
+
+        tz2_low = get_grade_lower_boundary(
+            tz2,
+            grade
+        )
+
+        tz3_low = get_grade_lower_boundary(
+            tz3,
+            grade
+        )
+
+        tz2_percentage = (
+            tz2_low / max_old
+        ) * 100
+
+        tz3_percentage = (
+            tz3_low / max_old
+        ) * 100
+
+        average_percentage = (
+            tz2_percentage
+            + tz3_percentage
+        ) / 2
+
+        lower_thresholds[grade] = (
+            average_percentage
+        )
+
+    boundaries = []
+
+    for grade in range(1, 8):
+
+        low = lower_thresholds[grade]
+
+        if grade < 7:
+            high = lower_thresholds[grade + 1]
+        else:
+            high = 100.0
+
+        boundaries.append(
+            (low, high, grade)
+        )
+
+    return boundaries
+
+
+def build_average_final_boundaries(level):
+    """
+    Builds provisional final-grade boundaries using the average
+    of TZ2 and TZ3 lower thresholds.
+    """
+
+    tz2 = BOUNDARIES_2025[level]["TZ2"]["Final Grade"]
+    tz3 = BOUNDARIES_2025[level]["TZ3"]["Final Grade"]
+
+    lower_thresholds = {}
+
+    for grade in range(1, 8):
+
+        tz2_low = get_grade_lower_boundary(
+            tz2,
+            grade
+        )
+
+        tz3_low = get_grade_lower_boundary(
+            tz3,
+            grade
+        )
+
+        average = (
+            tz2_low + tz3_low
+        ) / 2
+
+        lower_thresholds[grade] = average
+
+    boundaries = []
+
+    for grade in range(1, 8):
+
+        low = lower_thresholds[grade]
+
+        if grade < 7:
+            high = lower_thresholds[grade + 1]
+        else:
+            high = 100.0
+
+        boundaries.append(
+            (low, high, grade)
+        )
+
+    return boundaries
+
+
+def get_estimated_grade(level, assessment, percentage):
+    """
+    Determines provisional IB grade based on averaged
+    2025 percentage thresholds.
+    """
+
+    boundaries = build_average_percentage_boundaries(
+        level,
+        assessment
+    )
 
     for low, high, grade in boundaries:
 
-        low_percentage = (
-            low / reference_max
-        ) * 100
+        if grade < 7:
 
-        # +1 is used because IB raw boundaries are whole-mark bands.
-        # Example:
-        # 59-68 really covers percentages from 59.0 up to
-        # just before the next boundary starts.
-        if high < reference_max:
-            high_percentage = (
-                (high + 1) / reference_max
-            ) * 100
+            if low <= percentage < high:
+                return grade, low, high
+
         else:
-            high_percentage = 100.0
 
-        if (
-            percentage >= low_percentage
-            and percentage < high_percentage
-        ) or (
-            percentage == 100
-            and high == reference_max
-        ):
-
-            return (
-                grade,
-                low_percentage,
-                high_percentage
-            )
+            if low <= percentage <= 100:
+                return grade, low, high
 
     return None, None, None
 
 
-def get_final_grade(level, timezone, percentage):
-    """
-    Determines an estimated final IB grade using the
-    2025 final-grade boundaries as reference.
-    """
+def get_estimated_final_grade(level, percentage):
 
-    boundaries = REFERENCE_BOUNDARIES[
-        (level, timezone)
-    ]["Final Grade"]
+    boundaries = build_average_final_boundaries(
+        level
+    )
 
     for low, high, grade in boundaries:
 
-        if (
-            low <= percentage < high + 1
-        ) or (
-            percentage == 100
-            and high == 100
-        ):
+        if grade < 7:
 
-            return grade, low, min(high + 1, 100)
+            if low <= percentage < high:
+                return grade, low, high
+
+        else:
+
+            if low <= percentage <= 100:
+                return grade, low, high
 
     return None, None, None
 
@@ -516,11 +572,12 @@ def calculate_pasb(
     upper_boundary
 ):
     """
-    Calculates a PASB grade by linear interpolation inside
-    the equivalent IB grade band.
+    Linear interpolation inside PASB band.
     """
 
-    pasb_low, pasb_high = PASB_RANGES[grade]
+    pasb_low, pasb_high = (
+        PASB_RANGES[grade]
+    )
 
     if upper_boundary == lower_boundary:
         return float(pasb_low)
@@ -536,13 +593,11 @@ def calculate_pasb(
         min(position, 1)
     )
 
-    pasb_value = (
+    return (
         pasb_low
         + position
         * (pasb_high - pasb_low)
     )
-
-    return pasb_value
 
 
 # ============================================================
@@ -560,25 +615,14 @@ mode = st.radio(
     horizontal=True
 )
 
-col1, col2 = st.columns(2)
-
-with col1:
-
-    level = st.selectbox(
-        "IB Level",
-        ["HL", "SL"]
-    )
-
-with col2:
-
-    timezone = st.selectbox(
-        "2025 Boundary Reference",
-        ["Timezone 2", "Timezone 3"]
-    )
+level = st.selectbox(
+    "IB Level",
+    ["HL", "SL"]
+)
 
 
 # ============================================================
-# SINGLE ASSESSMENT MODE
+# SINGLE ASSESSMENT
 # ============================================================
 
 if mode == "Single Assessment":
@@ -594,9 +638,9 @@ if mode == "Single Assessment":
         ]
     )
 
-    official_max = MAX_MARKS_2027[
-        level
-    ][assessment]
+    official_max = (
+        MAX_MARKS_2027[level][assessment]
+    )
 
     st.caption(
         f"Official 2027 maximum for {assessment}: "
@@ -621,12 +665,10 @@ if mode == "Single Assessment":
             step=1.0
         )
 
-    calculate = st.button(
+    if st.button(
         "Calculate Grade",
         use_container_width=True
-    )
-
-    if calculate:
+    ):
 
         if score > total:
 
@@ -646,18 +688,12 @@ if mode == "Single Assessment":
             ) * 100
 
             # ------------------------------------------------
-            # EQUIVALENT 2027 COMPONENT MARK
+            # EQUIVALENT 2027 RAW MARK
             # ------------------------------------------------
 
             equivalent_mark = (
                 percentage / 100
             ) * official_max
-
-            equivalent_mark_rounded = (
-                round_half_up(
-                    equivalent_mark
-                )
-            )
 
             # ------------------------------------------------
             # ESTIMATED IB GRADE
@@ -667,9 +703,8 @@ if mode == "Single Assessment":
                 grade,
                 boundary_low,
                 boundary_high
-            ) = get_reference_grade(
+            ) = get_estimated_grade(
                 level,
-                timezone,
                 assessment,
                 percentage
             )
@@ -737,20 +772,26 @@ if mode == "Single Assessment":
                 st.markdown(
                     f"""
 <div class="result-box">
+
 <strong>Equivalent 2027 {assessment} mark:</strong>
-{equivalent_mark:.1f}/{official_max}<br><br>
+{equivalent_mark:.1f}/{official_max}
+<br><br>
 
-<strong>Estimated IB grade:</strong>
-{grade}<br><br>
+<strong>Estimated IB Grade:</strong>
+{grade}
+<br><br>
 
-<strong>Reference boundary:</strong>
-{boundary_low:.1f}% – {boundary_high:.1f}%<br><br>
+<strong>Provisional reference boundary:</strong>
+{boundary_low:.1f}% – {boundary_high:.1f}%
+<br><br>
 
 <strong>PASB band:</strong>
-{pasb_low}–{pasb_high}<br><br>
+{pasb_low}–{pasb_high}
+<br><br>
 
 <strong>Exact PASB conversion:</strong>
 {pasb:.2f}
+
 </div>
 """,
                     unsafe_allow_html=True
@@ -758,7 +799,7 @@ if mode == "Single Assessment":
 
 
 # ============================================================
-# FINAL IB GRADE MODE
+# FINAL IB GRADE
 # ============================================================
 
 else:
@@ -772,10 +813,6 @@ else:
     st.caption(
         "Enter each component result as a percentage."
     )
-
-    # --------------------------------------------------------
-    # WEIGHTING INFORMATION
-    # --------------------------------------------------------
 
     if level == "HL":
 
@@ -794,10 +831,6 @@ else:
             "Paper 2 = 35% · "
             "IA = 30%"
         )
-
-    # --------------------------------------------------------
-    # COMPONENT INPUTS
-    # --------------------------------------------------------
 
     p1 = st.number_input(
         "Paper 1 (%)",
@@ -820,14 +853,14 @@ else:
         step=0.5
     )
 
-    calculate_final = st.button(
+    if st.button(
         "Calculate Final Grade",
         use_container_width=True
-    )
+    ):
 
-    if calculate_final:
-
-        weights = WEIGHTS_2027[level]
+        weights = (
+            WEIGHTS_2027[level]
+        )
 
         # ----------------------------------------------------
         # WEIGHTED FINAL RESULT
@@ -840,16 +873,15 @@ else:
         )
 
         # ----------------------------------------------------
-        # ESTIMATED IB FINAL GRADE
+        # ESTIMATED FINAL IB GRADE
         # ----------------------------------------------------
 
         (
             final_grade,
             final_low,
             final_high
-        ) = get_final_grade(
+        ) = get_estimated_final_grade(
             level,
-            timezone,
             final_percentage
         )
 
@@ -916,20 +948,26 @@ else:
             st.markdown(
                 f"""
 <div class="result-box">
+
 <strong>Weighted result:</strong>
-{final_percentage:.2f}%<br><br>
+{final_percentage:.2f}%
+<br><br>
 
-<strong>Estimated IB grade:</strong>
-{final_grade}<br><br>
+<strong>Estimated IB Grade:</strong>
+{final_grade}
+<br><br>
 
-<strong>Reference final boundary:</strong>
-{final_low:.0f}% – {final_high:.0f}%<br><br>
+<strong>Provisional final boundary:</strong>
+{final_low:.1f}% – {final_high:.1f}%
+<br><br>
 
 <strong>PASB band:</strong>
-{pasb_low}–{pasb_high}<br><br>
+{pasb_low}–{pasb_high}
+<br><br>
 
 <strong>Exact PASB conversion:</strong>
 {pasb:.2f}
+
 </div>
 """,
                 unsafe_allow_html=True
@@ -948,6 +986,7 @@ st.caption(
 )
 
 st.caption(
-    "Grade estimates use May 2025 grade boundaries only as a "
-    "proportional reference. They are not official 2027 IB grade boundaries."
+    "IB grade estimates are provisional. "
+    "May 2025 boundaries are used as a percentage-based reference "
+    "until official 2027 boundaries are published."
 )
